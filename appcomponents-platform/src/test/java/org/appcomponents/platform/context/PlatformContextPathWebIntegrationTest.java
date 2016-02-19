@@ -18,29 +18,23 @@ package org.appcomponents.platform.context;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
-
 import org.apache.http.HttpStatus;
 import org.appcomponents.platform.PlatformIntegrationTest;
-import org.appcomponents.platform.api.Platform;
 import org.appcomponents.platform.test.PlatformTest;
-import org.appcomponents.platform.test.beans.platform.TestPlatform;
-
+import org.appcomponents.platform.test.beans.platform.TestPlatformContextPath;
 import org.hamcrest.Matchers;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
-
-import java.util.Collections;
 
 import static com.jayway.restassured.RestAssured.when;
 
 /**
  * @author Martin Janys
  */
-@PlatformTest(TestPlatform.class)
-@ContextConfiguration(classes = TestPlatform.class)
-public class PlatformWebIntegrationTest extends PlatformIntegrationTest {
+@PlatformTest(TestPlatformContextPath.class)
+@ContextConfiguration(classes = TestPlatformContextPath.class)
+public class PlatformContextPathWebIntegrationTest extends PlatformIntegrationTest {
 
 	@Before
 	public void setup() {
@@ -54,24 +48,29 @@ public class PlatformWebIntegrationTest extends PlatformIntegrationTest {
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("echo"));
-		/** Module 1 */
-		when().get("/?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestPlatform.MODULE_1))
+		when().get("/")
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
-				.content(Matchers.is("main"));
-		when().get("/hello?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestPlatform.MODULE_1))
+				.content(Matchers.is("index"));
+		/** Module 1 */
+		when().get(String.format("/%s", TestPlatformContextPath.MODULE_1))
+				.then()
+				.content(Matchers.is("main"))
+				.contentType(ContentType.TEXT)
+				.statusCode(HttpStatus.SC_OK);
+		when().get(String.format("/%s/hello", TestPlatformContextPath.MODULE_1))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("hello"));
 		/** Module 2 */
-		when().get("/?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestPlatform.MODULE_2))
+		when().get(String.format("/%s", TestPlatformContextPath.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("main2"));
-		when().get("/hello?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestPlatform.MODULE_2))
+		when().get(String.format("/%s/hello", TestPlatformContextPath.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)

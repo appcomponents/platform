@@ -20,7 +20,7 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.appcomponents.platform.PlatformIntegrationTest;
-import org.appcomponents.platform.api.PlatformConstants;
+import org.appcomponents.platform.api.Platform;
 import org.appcomponents.platform.test.PlatformTest;
 import org.appcomponents.platform.test.beans.platform.TestPlatform;
 import org.appcomponents.platform.test.beans.platform.TestPlatformDefaultModule;
@@ -52,7 +52,7 @@ public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegration
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("echo"));
-		when().get("/?component={component}", Collections.singletonMap(PlatformConstants.PARAM_COMPONENT, PlatformConstants.NONE_COMPONENT))
+		when().get("/?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, Platform.NONE_COMPONENT))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
@@ -69,12 +69,12 @@ public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegration
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("hello"));
 		/** Module 2 */
-		when().get("/?component={component}", Collections.singletonMap(PlatformConstants.PARAM_COMPONENT, TestPlatform.MODULE_2))
+		when().get("/?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestPlatform.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("main2"));
-		when().get("/hello?component={component}", Collections.singletonMap(PlatformConstants.PARAM_COMPONENT, TestPlatform.MODULE_2))
+		when().get("/hello?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestPlatform.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)

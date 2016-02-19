@@ -42,17 +42,20 @@ public class DefaultAppComponent implements Component {
 	private final String componentName;
 	private final WebApplicationContext applicationContext;
 	private final Set<Component> appComponents;
+	private final boolean relativeContextPath;
 
 	public DefaultAppComponent(String componentName, WebApplicationContext applicationContext, Set<Component> appComponents) {
 		this.componentName = componentName;
 		this.applicationContext = applicationContext;
 		this.appComponents = Collections.unmodifiableSet(new HashSet<>(appComponents));
+		this.relativeContextPath = false;
 	}
 
-	public DefaultAppComponent(String componentName, WebApplicationContext applicationContext) {
+	public DefaultAppComponent(String componentName, WebApplicationContext applicationContext, boolean relativeContextPath) {
 		this.componentName = componentName;
 		this.applicationContext = applicationContext;
 		this.appComponents = Collections.emptySet();
+		this.relativeContextPath = relativeContextPath;
 	}
 
 	@Override
@@ -81,12 +84,22 @@ public class DefaultAppComponent implements Component {
 	}
 
 	@Override
+	public Set<Component> getChildComponents() {
+		return this.appComponents;
+	}
+
+	@Override
 	public String getComponentName() {
 		return this.componentName;
 	}
 
 	public WebApplicationContext getApplicationContext() {
 		return this.applicationContext;
+	}
+
+	@Override
+	public boolean isRelativeContextPath() {
+		return this.relativeContextPath;
 	}
 
 	@Override

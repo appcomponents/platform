@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>org.appcomponents</groupId>
-            <artifactId>a-platform-api</artifactId>
+            <artifactId>appcomponents-platform-api</artifactId>
         </dependency>
 
         <!-- Spring dependencies -->
@@ -81,7 +81,7 @@
         <!-- Test -->
         <dependency>
             <groupId>org.appcomponents</groupId>
-            <artifactId>a-platform-test</artifactId>
+            <artifactId>appcomponents-platform-test</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

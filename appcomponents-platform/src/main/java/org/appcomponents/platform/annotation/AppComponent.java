@@ -38,4 +38,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 public @interface AppComponent {
 
+	boolean relativePath() default false;
+
 }

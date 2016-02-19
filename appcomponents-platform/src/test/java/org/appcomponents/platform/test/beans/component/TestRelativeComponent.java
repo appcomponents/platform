@@ -14,31 +14,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.api;
+package org.appcomponents.platform.test.beans.component;
 
-import java.util.Set;
+import org.appcomponents.platform.annotation.AppComponent;
+import org.appcomponents.platform.test.beans.controller.TestController;
+import org.springframework.context.annotation.Bean;
 
 /**
- * App Component Platform interface.
  * @author Martin Janys
  */
-public interface Platform {
+@AppComponent(relativePath = true)
+public class TestRelativeComponent {
 
-	/**
-	 * Request parameter witch determines App Component for request.
-	 */
-	String PARAM_COMPONENT = "component";
+	@Bean(name = "string")
+	public String string() {
+		return "string";
+	}
 
-	/**
-	 * Value of {@link Platform#PARAM_COMPONENT} witch describe no module. Fallback is root.
-	 */
-	String NONE_COMPONENT = "NONE";
+	@Bean
+	public TestController testController() {
+		return new TestController();
+	}
 
-	Component getComponent(String componentName);
-
-	Component getDefaultComponent();
-
-	Component getRootModule();
-
-	Set<Component> getChildComponents();
 }

@@ -24,14 +24,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.appcomponents.platform.api.Component;
 import org.appcomponents.platform.api.Platform;
-import org.appcomponents.platform.api.PlatformConstants;
+import org.appcomponents.platform.http.ComponentRelativeHttpServletRequest;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -55,7 +54,13 @@ public class PlatformRequestMappingHandlerMapping implements HandlerMapping, App
 		Platform platform = this.applicationContext.getBean(Platform.class);
 		Component component = resolveComponent(platform, request);
 		if (component != null) {
-			return handle(request, component);
+			if (!component.isRelativeContextPath()) {
+				return handle(request, component);
+			}
+			else {
+				ComponentRelativeHttpServletRequest relativeRequest = new ComponentRelativeHttpServletRequest(request, component.getComponentName());
+				return handle(relativeRequest, component);
+			}
 		}
 		else {
 			return null;
@@ -63,16 +68,25 @@ public class PlatformRequestMappingHandlerMapping implements HandlerMapping, App
 	}
 
 	protected Component resolveComponent(Platform platform, HttpServletRequest request) {
-		String componentName = request.getParameter(PlatformConstants.PARAM_COMPONENT);
-		if (PlatformConstants.NONE_COMPONENT.equals(componentName)) {
+		String componentName = request.getParameter(Platform.PARAM_COMPONENT);
+		if (Platform.NONE_COMPONENT.equals(componentName)) {
 			return platform.getRootModule();
 		}
-		else if (!StringUtils.isEmpty(componentName)) {
-			return platform.getComponent(componentName);
-		}
 		else {
+			for (Component component : platform.getChildComponents()) {
+				if (component.getComponentName().equals(componentName)) {
+					return component;
+				}
+				else if (component.isRelativeContextPath() && isComponentRelativePath(component.getComponentName(), request.getRequestURI())) {
+					return component;
+				}
+			}
 			return platform.getDefaultComponent();
 		}
+	}
+
+	private boolean isComponentRelativePath(String componentName, String requestURI) {
+		return requestURI.startsWith("/" + componentName);
 	}
 
 	protected HandlerExecutionChain handle(HttpServletRequest request, Component component) throws Exception {

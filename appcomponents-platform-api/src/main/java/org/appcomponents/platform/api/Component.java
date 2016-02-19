@@ -16,6 +16,8 @@
  */
 package org.appcomponents.platform.api;
 
+import java.util.Set;
+
 import javax.servlet.ServletContext;
 
 import org.springframework.context.ApplicationContext;
@@ -34,4 +36,7 @@ public interface Component {
 
 	ApplicationContext getApplicationContext();
 
+	Set<Component> getChildComponents();
+
+	boolean isRelativeContextPath();
 }

@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>org.appcomponents</groupId>
-            <artifactId>a-platform-api</artifactId>
+            <artifactId>appcomponents-platform-api</artifactId>
         </dependency>
 
         <!-- Boot -->

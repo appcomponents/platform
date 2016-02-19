@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.appcomponents.platform.annotation.AppComponent;
 import org.appcomponents.platform.api.Component;
 import org.appcomponents.platform.api.Platform;
 import org.appcomponents.platform.component.DefaultAppComponent;
@@ -35,6 +36,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.core.type.StandardAnnotationMetadata;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
@@ -92,7 +94,11 @@ public class PlatformBase extends SpringApplication implements Platform, Initial
 		AnnotationConfigWebApplicationContext applicationContext = createChildApplicationContext(configuration);
 		applicationContext.setParent(parentContext);
 
-		return new DefaultAppComponent(name, applicationContext);
+		StandardAnnotationMetadata annotationMetadata = new StandardAnnotationMetadata(configuration);
+		Map<String, Object> annotationAttributes = annotationMetadata.getAnnotationAttributes(AppComponent.class.getName());
+		boolean relativePath = (boolean) annotationAttributes.getOrDefault("relativePath", false);
+
+		return new DefaultAppComponent(name, applicationContext, relativePath);
 	}
 
 	protected AnnotationConfigWebApplicationContext createChildApplicationContext(Class cls) {
@@ -123,6 +129,11 @@ public class PlatformBase extends SpringApplication implements Platform, Initial
 	@Override
 	public Component getDefaultComponent() {
 		return getComponent(getDefaultComponentName());
+	}
+
+	@Override
+	public Set<Component> getChildComponents() {
+		return getRootModule().getChildComponents();
 	}
 
 	@Override
