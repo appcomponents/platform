@@ -1,3 +1,19 @@
+/*
+ * Copyright 2016 the original author or authors.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.appcomponents.platform.context;
 
 import com.jayway.restassured.RestAssured;
@@ -24,45 +40,45 @@ import static com.jayway.restassured.RestAssured.when;
 @ContextConfiguration(classes = TestPlatformDefaultModule.class)
 public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegrationTest {
 
-    @Before
-    public void setup() {
-        RestAssured.port = port;
-    }
+	@Before
+	public void setup() {
+		RestAssured.port = port;
+	}
 
-    @Test
-    public void moduleIntegrationTest() {
-        when().get("/echo")
-                .then()
-                .contentType(ContentType.TEXT)
-                .statusCode(HttpStatus.SC_OK)
-                .content(Matchers.is("echo"));
-        when().get("/?component={component}", Collections.singletonMap(PlatformConstants.PARAM_COMPONENT, PlatformConstants.NONE_COMPONENT))
-                .then()
-                .contentType(ContentType.TEXT)
-                .statusCode(HttpStatus.SC_OK)
-                .content(Matchers.is("index"));
-        /** Module 1 */
-        when().get("/")
-                .then()
-                .contentType(ContentType.TEXT)
-                .statusCode(HttpStatus.SC_OK)
-                .content(Matchers.is("main"));
-        when().get("/hello")
-                .then()
-                .contentType(ContentType.TEXT)
-                .statusCode(HttpStatus.SC_OK)
-                .content(Matchers.is("hello"));
-        /** Module 2 */
-        when().get("/?component={component}", Collections.singletonMap(PlatformConstants.PARAM_COMPONENT, TestPlatform.MODULE_2))
-                .then()
-                .contentType(ContentType.TEXT)
-                .statusCode(HttpStatus.SC_OK)
-                .content(Matchers.is("main2"));
-        when().get("/hello?component={component}", Collections.singletonMap(PlatformConstants.PARAM_COMPONENT, TestPlatform.MODULE_2))
-                .then()
-                .contentType(ContentType.TEXT)
-                .statusCode(HttpStatus.SC_OK)
-                .content(Matchers.is("hello2"));
-    }
+	@Test
+	public void moduleIntegrationTest() {
+		when().get("/echo")
+				.then()
+				.contentType(ContentType.TEXT)
+				.statusCode(HttpStatus.SC_OK)
+				.content(Matchers.is("echo"));
+		when().get("/?component={component}", Collections.singletonMap(PlatformConstants.PARAM_COMPONENT, PlatformConstants.NONE_COMPONENT))
+				.then()
+				.contentType(ContentType.TEXT)
+				.statusCode(HttpStatus.SC_OK)
+				.content(Matchers.is("index"));
+		/** Module 1 */
+		when().get("/")
+				.then()
+				.contentType(ContentType.TEXT)
+				.statusCode(HttpStatus.SC_OK)
+				.content(Matchers.is("main"));
+		when().get("/hello")
+				.then()
+				.contentType(ContentType.TEXT)
+				.statusCode(HttpStatus.SC_OK)
+				.content(Matchers.is("hello"));
+		/** Module 2 */
+		when().get("/?component={component}", Collections.singletonMap(PlatformConstants.PARAM_COMPONENT, TestPlatform.MODULE_2))
+				.then()
+				.contentType(ContentType.TEXT)
+				.statusCode(HttpStatus.SC_OK)
+				.content(Matchers.is("main2"));
+		when().get("/hello?component={component}", Collections.singletonMap(PlatformConstants.PARAM_COMPONENT, TestPlatform.MODULE_2))
+				.then()
+				.contentType(ContentType.TEXT)
+				.statusCode(HttpStatus.SC_OK)
+				.content(Matchers.is("hello2"));
+	}
 
 }
