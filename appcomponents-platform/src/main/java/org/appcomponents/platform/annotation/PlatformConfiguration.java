@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2015 the original author or authors.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -14,26 +14,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.configuration;
+package org.appcomponents.platform.annotation;
 
-import org.appcomponents.platform.mvc.PlatformRequestMappingHandlerMapping;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * Configuration of App Components Platform.
+ * App components platform annotation marker.
+ *
  * @author Martin Janys
  */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+
+@EnableAutoConfiguration
 @EnableWebMvc
 @Configuration
-public class PlatformConfiguration extends WebMvcConfigurerAdapter {
+@ComponentScan
+public @interface PlatformConfiguration {
 
-	@Bean
-	public HandlerMapping platformHandlerMapping() {
-		return new PlatformRequestMappingHandlerMapping();
-	}
 }

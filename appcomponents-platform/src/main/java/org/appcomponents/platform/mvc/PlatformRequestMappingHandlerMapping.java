@@ -42,7 +42,7 @@ import org.springframework.web.servlet.HandlerMapping;
 public class PlatformRequestMappingHandlerMapping implements HandlerMapping, ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
-	protected static final Log logger = LogFactory.getLog(PlatformRequestMappingHandlerMapping.class); // todo logger ?
+	protected static final Log logger = LogFactory.getLog(PlatformRequestMappingHandlerMapping.class);
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

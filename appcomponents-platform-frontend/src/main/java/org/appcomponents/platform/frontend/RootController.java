@@ -14,27 +14,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.test.beans.component;
+package org.appcomponents.platform.frontend;
 
-import org.appcomponents.platform.annotation.ComponentConfiguration;
-import org.appcomponents.platform.test.beans.controller.TestController2;
-
-import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
+ * Root controller.
  * @author Martin Janys
  */
-@ComponentConfiguration
-public class TestComponent2 {
+@Controller
+public class RootController {
 
-	@Bean(name = "string")
-	public String string() {
-		return "string";
+	private static final String HOME_VIEW = "templates/home.html";
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home() {
+		return "";
 	}
-
-	@Bean
-	public TestController2 testController() {
-		return new TestController2();
-	}
-
 }

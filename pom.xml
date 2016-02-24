@@ -19,6 +19,7 @@
         <module>appcomponents-platform-api</module>
         <module>appcomponents-platform-test</module>
         <module>appcomponents-platform</module>
+        <module>appcomponents-platform-frontend</module>
     </modules>
 
     <properties>
@@ -190,6 +191,11 @@
             <dependency>
                 <groupId>org.appcomponents</groupId>
                 <artifactId>appcomponents-platform-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.appcomponents</groupId>
+                <artifactId>appcomponents-platform-frontend</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

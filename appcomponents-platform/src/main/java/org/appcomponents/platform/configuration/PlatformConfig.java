@@ -14,27 +14,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.test.beans.component;
+package org.appcomponents.platform.configuration;
 
-import org.appcomponents.platform.annotation.ComponentConfiguration;
-import org.appcomponents.platform.test.beans.controller.TestController2;
+import org.appcomponents.platform.mvc.PlatformRequestMappingHandlerMapping;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
+ * Configuration of App Components Platform.
  * @author Martin Janys
  */
-@ComponentConfiguration
-public class TestComponent2 {
-
-	@Bean(name = "string")
-	public String string() {
-		return "string";
-	}
+@EnableWebMvc
+@Configuration
+public class PlatformConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
-	public TestController2 testController() {
-		return new TestController2();
+	public HandlerMapping platformHandlerMapping() {
+		return new PlatformRequestMappingHandlerMapping();
 	}
-
 }

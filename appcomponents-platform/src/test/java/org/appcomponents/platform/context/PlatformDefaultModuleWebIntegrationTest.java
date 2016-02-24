@@ -22,8 +22,8 @@ import org.apache.http.HttpStatus;
 import org.appcomponents.platform.PlatformIntegrationTest;
 import org.appcomponents.platform.api.Platform;
 import org.appcomponents.platform.test.PlatformTest;
-import org.appcomponents.platform.test.beans.platform.TestPlatform;
-import org.appcomponents.platform.test.beans.platform.TestPlatformDefaultModule;
+import org.appcomponents.platform.test.beans.platform.TestDefaultPlatform;
+import org.appcomponents.platform.test.beans.platform.TestDefaultPlatformDefaultModule;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,8 +36,8 @@ import static com.jayway.restassured.RestAssured.when;
 /**
  * @author Martin Janys
  */
-@PlatformTest(TestPlatformDefaultModule.class)
-@ContextConfiguration(classes = TestPlatformDefaultModule.class)
+@PlatformTest(TestDefaultPlatformDefaultModule.class)
+@ContextConfiguration(classes = TestDefaultPlatformDefaultModule.class)
 public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegrationTest {
 
 	@Before
@@ -69,12 +69,12 @@ public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegration
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("hello"));
 		/** Module 2 */
-		when().get("/?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestPlatform.MODULE_2))
+		when().get("/?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestDefaultPlatform.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("main2"));
-		when().get("/hello?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestPlatform.MODULE_2))
+		when().get("/hello?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestDefaultPlatform.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)

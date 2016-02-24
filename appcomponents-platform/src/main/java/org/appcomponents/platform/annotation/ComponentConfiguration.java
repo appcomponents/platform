@@ -22,13 +22,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
- * App components platform annotation marker.
+ * App component annotation marker.
  *
  * @author Martin Janys
  */
@@ -36,10 +34,14 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 
-@EnableAutoConfiguration
 @EnableWebMvc
 @Configuration
-@ComponentScan
-public @interface AppPlatform {
+public @interface ComponentConfiguration {
+
+	/**
+	 * Module name is used as relative path.
+	 * @return true if relative path is enabled
+	 */
+	boolean relativePath() default true;
 
 }

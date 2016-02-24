@@ -17,6 +17,10 @@
             <groupId>org.appcomponents</groupId>
             <artifactId>appcomponents-platform-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.appcomponents</groupId>
+            <artifactId>appcomponents-platform-frontend</artifactId>
+        </dependency>
 
         <!-- Spring dependencies -->
         <dependency>

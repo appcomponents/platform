@@ -16,13 +16,12 @@
  */
 package org.appcomponents.platform.test.beans.platform;
 
-import org.appcomponents.platform.PlatformBase;
-import org.appcomponents.platform.annotation.AppPlatform;
+import org.appcomponents.platform.DefaultPlatform;
+import org.appcomponents.platform.annotation.PlatformConfiguration;
 import org.appcomponents.platform.test.beans.component.TestComponent;
 import org.appcomponents.platform.test.beans.component.TestComponent2;
-import org.appcomponents.platform.test.beans.component.TestRelativeComponent;
-import org.appcomponents.platform.test.beans.component.TestRelativeComponent2;
 import org.appcomponents.platform.test.beans.controller.EchoController;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -30,16 +29,17 @@ import org.springframework.context.annotation.FilterType;
 /**
  * @author Martin Janys
  */
-@AppPlatform
+@PlatformConfiguration
 @ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Object.class)) // exclude all
-public class TestPlatformContextPath extends PlatformBase {
+public class TestDefaultPlatformDefaultModule extends DefaultPlatform {
 
 	public static final String MODULE_1 = "testModule1";
 	public static final String MODULE_2 = "testModule2";
 
-	public TestPlatformContextPath() {
-		addComponentConfigurations(MODULE_1, TestRelativeComponent.class);
-		addComponentConfigurations(MODULE_2, TestRelativeComponent2.class);
+	public TestDefaultPlatformDefaultModule() {
+		addComponentConfigurations(MODULE_1, TestComponent.class);
+		addComponentConfigurations(MODULE_2, TestComponent2.class);
+		setDefaultComponentName(MODULE_1);
 	}
 
 	@Bean

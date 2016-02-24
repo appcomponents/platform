@@ -21,35 +21,30 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.appcomponents.platform.annotation.AppComponent;
+import org.appcomponents.platform.annotation.ComponentConfiguration;
 import org.appcomponents.platform.api.Component;
 import org.appcomponents.platform.api.Platform;
 import org.appcomponents.platform.component.DefaultAppComponent;
-import org.appcomponents.platform.configuration.PlatformConfiguration;
+import org.appcomponents.platform.configuration.PlatformConfig;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.core.type.StandardAnnotationMetadata;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+
 
 /**
  * App Components Platform. Extend this class for use App Components Platform.
  *
  * @author Martin Janys
  */
-@SpringBootApplication
-@ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Object.class)) // exclude all
-public class PlatformBase extends SpringApplication implements Platform, InitializingBean, ApplicationContextAware {
+public class DefaultPlatform extends SpringApplication implements Platform {
 
 	private final Map<String, Class<?>> componentConfigurations;
 	private ApplicationContext applicationContext;
@@ -57,26 +52,33 @@ public class PlatformBase extends SpringApplication implements Platform, Initial
 	private DefaultAppComponent rootModule;
 	private String defaultComponentName;
 
-	public PlatformBase() {
-		super(PlatformConfiguration.class);
+	public DefaultPlatform() {
 		this.componentConfigurations = new HashMap<>();
 	}
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
+	protected DefaultPlatform(Object ... configs) {
+		super(ObjectUtils.addObjectToArray(configs, PlatformConfig.class));
+		this.componentConfigurations = new HashMap<>();
+	}
+
+	public void init() {
+		Set<Component> modules = createChildAppComponents(this.componentConfigurations, (ConfigurableApplicationContext) this.applicationContext);
+		this.rootModule = new DefaultAppComponent(getClass().getName(), (WebApplicationContext) this.applicationContext, modules);
+		this.rootModule.refresh();
 	}
 
 	@Override
 	protected ConfigurableApplicationContext createApplicationContext() {
-		return new AnnotationConfigEmbeddedWebApplicationContext();
+		AnnotationConfigEmbeddedWebApplicationContext context = new AnnotationConfigEmbeddedWebApplicationContext();
+		this.applicationContext = context;
+		context.getBeanFactory().registerSingleton(getClass().getCanonicalName(), this); // register platform as bean
+		return context;
 	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
-		Set<Component> modules = createChildAppComponents(this.componentConfigurations, (ConfigurableApplicationContext) this.applicationContext);
-		this.rootModule = new DefaultAppComponent(getClass().getName(), (WebApplicationContext) this.applicationContext, modules);
-		this.rootModule.refresh();
+	protected void refresh(ApplicationContext applicationContext) {
+		super.refresh(applicationContext);
+		this.init();
 	}
 
 	protected Set<Component> createChildAppComponents(Map<String, Class<?>> componentConfigurations, ConfigurableApplicationContext applicationContext) {
@@ -95,7 +97,7 @@ public class PlatformBase extends SpringApplication implements Platform, Initial
 		applicationContext.setParent(parentContext);
 
 		StandardAnnotationMetadata annotationMetadata = new StandardAnnotationMetadata(configuration);
-		Map<String, Object> annotationAttributes = annotationMetadata.getAnnotationAttributes(AppComponent.class.getName());
+		Map<String, Object> annotationAttributes = annotationMetadata.getAnnotationAttributes(ComponentConfiguration.class.getName());
 		boolean relativePath = (boolean) annotationAttributes.getOrDefault("relativePath", false);
 
 		return new DefaultAppComponent(name, applicationContext, relativePath);
