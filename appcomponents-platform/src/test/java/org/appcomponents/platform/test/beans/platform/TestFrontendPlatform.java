@@ -16,7 +16,7 @@
  */
 package org.appcomponents.platform.test.beans.platform;
 
-import org.appcomponents.platform.FrontendPlatform;
+import org.appcomponents.platform.PlatformBuilder;
 import org.appcomponents.platform.annotation.PlatformConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -29,6 +29,6 @@ import org.springframework.context.annotation.FilterType;
 public class TestFrontendPlatform {
 
 	public static void main(String[] args) {
-		new FrontendPlatform(TestFrontendPlatform.class).run(args);
+		new PlatformBuilder(TestFrontendPlatform.class).run(args);
 	}
 }

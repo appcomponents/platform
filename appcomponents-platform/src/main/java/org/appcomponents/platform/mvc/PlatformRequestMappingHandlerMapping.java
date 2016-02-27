@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.appcomponents.platform.api.Component;
-import org.appcomponents.platform.api.Platform;
+import org.appcomponents.platform.api.PlatformComponent;
 import org.appcomponents.platform.http.ComponentRelativeHttpServletRequest;
 
 import org.springframework.beans.BeansException;
@@ -51,10 +51,10 @@ public class PlatformRequestMappingHandlerMapping implements HandlerMapping, App
 
 	@Override
 	public HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
-		Platform platform = this.applicationContext.getBean(Platform.class);
+		PlatformComponent platform = this.applicationContext.getBean(PlatformComponent.class);
 		Component component = resolveComponent(platform, request);
 		if (component != null) {
-			if (!component.isRelativeContextPath()) {
+			if (!component.useContextPath()) {
 				return handle(request, component);
 			}
 			else {
@@ -67,17 +67,17 @@ public class PlatformRequestMappingHandlerMapping implements HandlerMapping, App
 		}
 	}
 
-	protected Component resolveComponent(Platform platform, HttpServletRequest request) {
-		String componentName = request.getParameter(Platform.PARAM_COMPONENT);
-		if (Platform.NONE_COMPONENT.equals(componentName)) {
-			return platform.getRootModule();
+	protected Component resolveComponent(PlatformComponent platform, HttpServletRequest request) {
+		String componentName = request.getParameter(PlatformComponent.PARAM_COMPONENT);
+		if (PlatformComponent.NONE_COMPONENT.equals(componentName)) {
+			return platform.getRootComponent();
 		}
 		else {
-			for (Component component : platform.getChildComponents()) {
-				if (component.getComponentName().equals(componentName)) {
+			for (Component component : platform.getComponents()) {
+				if (component.useContextPath() && isComponentRelativePath(component.getComponentName(), request.getRequestURI())) {
 					return component;
 				}
-				else if (component.isRelativeContextPath() && isComponentRelativePath(component.getComponentName(), request.getRequestURI())) {
+				else if (component.getComponentName().equals(componentName)) {
 					return component;
 				}
 			}
@@ -101,8 +101,7 @@ public class PlatformRequestMappingHandlerMapping implements HandlerMapping, App
 					continue;
 				}
 				if (logger.isTraceEnabled()) {
-					logger.trace(
-							"Testing handler map [" + hm + "] in PlatformRequestMappingHandlerMapping");
+					logger.trace("Testing handler map [" + hm + "] in PlatformRequestMappingHandlerMapping");
 				}
 				HandlerExecutionChain handler = hm.getHandler(request);
 				if (handler != null) {

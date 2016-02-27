@@ -16,11 +16,8 @@
  */
 package org.appcomponents.platform;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.specification.RequestSender;
-import org.appcomponents.platform.api.Platform;
+import org.appcomponents.platform.api.PlatformComponent;
 import org.appcomponents.platform.test.AbstractPlatformIntegrationTest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -29,6 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class PlatformIntegrationTest extends AbstractPlatformIntegrationTest {
 
 	@Autowired
-	protected Platform platform;
+	protected PlatformComponent platform;
 
 }

@@ -16,10 +16,6 @@
  */
 package org.appcomponents.platform.api;
 
-import java.util.Set;
-
-import javax.servlet.ServletContext;
-
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -30,13 +26,7 @@ public interface Component {
 
 	String getComponentName();
 
-	void refresh();
-
-	void refresh(ServletContext servletContext);
-
 	ApplicationContext getApplicationContext();
 
-	Set<Component> getChildComponents();
-
-	boolean isRelativeContextPath();
+	boolean useContextPath();
 }

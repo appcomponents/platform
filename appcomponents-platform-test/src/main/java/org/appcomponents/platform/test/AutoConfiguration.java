@@ -14,21 +14,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform;
+package org.appcomponents.platform.test;
 
-import org.appcomponents.platform.configuration.FrontendPlatformConfig;
-
-import org.springframework.util.ObjectUtils;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * App Components Platform. Extend this class for use App Components Platform.
- *
+ * Empty configuration for context loader.
  * @author Martin Janys
  */
-public class FrontendPlatform extends DefaultPlatform {
-
-	public FrontendPlatform(Object ... configs) {
-		super(ObjectUtils.addObjectToArray(configs, FrontendPlatformConfig.class));
-	}
-
+@EnableAutoConfiguration
+@Configuration
+public class AutoConfiguration {
 }

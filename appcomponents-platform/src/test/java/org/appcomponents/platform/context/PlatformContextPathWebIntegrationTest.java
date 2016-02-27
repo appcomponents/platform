@@ -21,7 +21,7 @@ import com.jayway.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.appcomponents.platform.PlatformIntegrationTest;
 import org.appcomponents.platform.test.PlatformTest;
-import org.appcomponents.platform.test.beans.platform.TestDefaultPlatformContextPath;
+import org.appcomponents.platform.test.beans.platform.TestBasicPlatformContextPath;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,8 +32,7 @@ import static com.jayway.restassured.RestAssured.when;
 /**
  * @author Martin Janys
  */
-@PlatformTest(TestDefaultPlatformContextPath.class)
-@ContextConfiguration(classes = TestDefaultPlatformContextPath.class)
+@PlatformTest(platformFactory = TestBasicPlatformContextPath.Platform.class)
 public class PlatformContextPathWebIntegrationTest extends PlatformIntegrationTest {
 
 	@Before
@@ -54,23 +53,23 @@ public class PlatformContextPathWebIntegrationTest extends PlatformIntegrationTe
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("index"));
 		/** Module 1 */
-		when().get(String.format("/%s", TestDefaultPlatformContextPath.MODULE_1))
+		when().get(String.format("/%s", TestBasicPlatformContextPath.MODULE_1))
 				.then()
 				.content(Matchers.is("main"))
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK);
-		when().get(String.format("/%s/hello", TestDefaultPlatformContextPath.MODULE_1))
+		when().get(String.format("/%s/hello", TestBasicPlatformContextPath.MODULE_1))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("hello"));
 		/** Module 2 */
-		when().get(String.format("/%s", TestDefaultPlatformContextPath.MODULE_2))
+		when().get(String.format("/%s", TestBasicPlatformContextPath.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("main2"));
-		when().get(String.format("/%s/hello", TestDefaultPlatformContextPath.MODULE_2))
+		when().get(String.format("/%s/hello", TestBasicPlatformContextPath.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)

@@ -59,8 +59,8 @@ public class ComponentRelativeHttpServletRequest extends HttpServletRequestWrapp
 		}
 	}
 
-	@Override
-	public String getContextPath() {
-		return super.getContextPath() + this.componentRelativePath;
-	}
+//	@Override
+//	public String getContextPath() {
+//		return super.getContextPath() + this.componentRelativePath;
+//	}
 }

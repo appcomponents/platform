@@ -39,9 +39,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public @interface ComponentConfiguration {
 
 	/**
-	 * Module name is used as relative path.
+	 * Module name is used as relative context path.
 	 * @return true if relative path is enabled
 	 */
-	boolean relativePath() default true;
+	boolean useContextPath() default true;
 
 }

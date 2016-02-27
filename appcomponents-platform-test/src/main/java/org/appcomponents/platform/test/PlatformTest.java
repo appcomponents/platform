@@ -22,8 +22,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.appcomponents.platform.PlatformFactory;
 import org.appcomponents.platform.test.loader.PlatformContextLoader;
 
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
@@ -34,9 +36,10 @@ import org.springframework.test.context.ContextConfiguration;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 
-@ContextConfiguration(loader = PlatformContextLoader.class, classes = EmptyConfiguration.class)
+@DirtiesContext
+@ContextConfiguration(loader = PlatformContextLoader.class, classes = AutoConfiguration.class)
 public @interface PlatformTest {
 
-	Class value();
+	Class<? extends PlatformFactory> platformFactory();
 
 }

@@ -14,31 +14,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.api;
-
-import java.util.Set;
+package org.appcomponents.platform;
 
 /**
- * App Component Platform interface.
+ * Platform features.
  * @author Martin Janys
  */
-public interface Platform {
-
+public enum PlatformFeature {
 	/**
-	 * Request parameter witch determines App Component for request.
+	 * Base platform.
 	 */
-	String PARAM_COMPONENT = "component";
-
+	BASE,
 	/**
-	 * Value of {@link Platform#PARAM_COMPONENT} witch describe no module. Fallback is root.
+	 * Frontend platform.
 	 */
-	String NONE_COMPONENT = "NONE";
-
-	Component getComponent(String componentName);
-
-	Component getDefaultComponent();
-
-	Component getRootModule();
-
-	Set<Component> getChildComponents();
+	FRONTEND;
 }

@@ -18,6 +18,7 @@ package org.appcomponents.platform.test.loader;
 
 import java.util.Map;
 
+import org.appcomponents.platform.PlatformFactory;
 import org.appcomponents.platform.test.PlatformTest;
 
 import org.springframework.beans.BeanUtils;
@@ -36,22 +37,21 @@ public class PlatformContextLoader extends SpringApplicationContextLoader {
 
 	private MergedContextConfiguration config;
 
-
 	@Override
 	public ApplicationContext loadContext(final MergedContextConfiguration config) throws Exception {
 		this.config = config;
 		return super.loadContext(config);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected SpringApplication getSpringApplication() {
 		StandardAnnotationMetadata annotationMetadata = new StandardAnnotationMetadata(this.config.getTestClass());
 		Map<String, Object> annotationAttributes = annotationMetadata.getAnnotationAttributes(PlatformTest.class.getName());
 		Assert.notNull(annotationAttributes, "No PlatformTest is specified");
 
-		@SuppressWarnings("unchecked")
-		Class<SpringApplication> platformClass = (Class<SpringApplication>) annotationAttributes.get("value");
-		Assert.isAssignable(SpringApplication.class, platformClass, "Platform must be instance of SpringApplication");
-		return BeanUtils.instantiate(platformClass);
+		Class<? extends PlatformFactory> platformFactoryClass = (Class<? extends PlatformFactory>) annotationAttributes.get("platformFactory");
+		PlatformFactory platformFactory = BeanUtils.instantiate(platformFactoryClass);
+		return platformFactory.build();
 	}
 }

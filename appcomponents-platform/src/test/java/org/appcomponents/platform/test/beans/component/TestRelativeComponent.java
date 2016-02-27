@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * @author Martin Janys
  */
-@ComponentConfiguration(relativePath = true)
+@ComponentConfiguration
 public class TestRelativeComponent {
 
 	@Bean(name = "string")

@@ -14,14 +14,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.test;
+package org.appcomponents.platform.api;
 
-import org.springframework.context.annotation.Configuration;
+import java.util.Set;
+
+import org.springframework.context.ApplicationContextAware;
 
 /**
- * Empty configuration for context loader.
+ * App Component Platform interface.
  * @author Martin Janys
  */
-@Configuration
-public class EmptyConfiguration {
+public interface PlatformComponent extends ApplicationContextAware {
+
+	/**
+	 * Request parameter witch determines App Component for request.
+	 */
+	String PARAM_COMPONENT = "component";
+
+	/**
+	 * Value of {@link PlatformComponent#PARAM_COMPONENT} witch describe no module. Fallback is root component.
+	 */
+	String NONE_COMPONENT = "NONE";
+
+	/**
+	 * Root compoennt name.
+	 */
+	String ROOT_COMPONENT_NAME = "root";
+
+	Component getRootComponent();
+
+	Component getDefaultComponent();
+
+	Set<Component> getComponents();
 }

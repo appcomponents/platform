@@ -20,14 +20,14 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.appcomponents.platform.PlatformIntegrationTest;
-import org.appcomponents.platform.api.Platform;
+import org.appcomponents.platform.api.PlatformComponent;
 import org.appcomponents.platform.test.PlatformTest;
-import org.appcomponents.platform.test.beans.platform.TestDefaultPlatform;
-import org.appcomponents.platform.test.beans.platform.TestDefaultPlatformDefaultModule;
+import org.appcomponents.platform.test.beans.platform.TestBasicPlatform;
+import org.appcomponents.platform.test.beans.platform.TestBasicPlatformDefaultComponent;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Collections;
 
@@ -36,8 +36,7 @@ import static com.jayway.restassured.RestAssured.when;
 /**
  * @author Martin Janys
  */
-@PlatformTest(TestDefaultPlatformDefaultModule.class)
-@ContextConfiguration(classes = TestDefaultPlatformDefaultModule.class)
+@PlatformTest(platformFactory = TestBasicPlatformDefaultComponent.Platform.class)
 public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegrationTest {
 
 	@Before
@@ -52,7 +51,7 @@ public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegration
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("echo"));
-		when().get("/?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, Platform.NONE_COMPONENT))
+		when().get("/?component={component}", Collections.singletonMap(PlatformComponent.PARAM_COMPONENT, PlatformComponent.NONE_COMPONENT))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
@@ -69,12 +68,12 @@ public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegration
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("hello"));
 		/** Module 2 */
-		when().get("/?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestDefaultPlatform.MODULE_2))
+		when().get("/?component={component}", Collections.singletonMap(PlatformComponent.PARAM_COMPONENT, TestBasicPlatform.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("main2"));
-		when().get("/hello?component={component}", Collections.singletonMap(Platform.PARAM_COMPONENT, TestDefaultPlatform.MODULE_2))
+		when().get("/hello?component={component}", Collections.singletonMap(PlatformComponent.PARAM_COMPONENT, TestBasicPlatform.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)

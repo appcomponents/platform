@@ -34,7 +34,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @IntegrationTest("server.port:0")
 @WebAppConfiguration
-@ContextConfiguration(loader = PlatformContextLoader.class, classes = EmptyConfiguration.class)
+@ContextConfiguration(loader = PlatformContextLoader.class, classes = AutoConfiguration.class)
 public abstract class AbstractPlatformIntegrationTest {
 
 	@Value("${local.server.port}")

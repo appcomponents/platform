@@ -14,26 +14,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.test.beans.component;
+package org.appcomponents.platform;
 
-import org.appcomponents.platform.annotation.ComponentConfiguration;
-import org.appcomponents.platform.test.beans.controller.TestController2;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.SpringApplication;
 
 /**
+ * Platform factory.
  * @author Martin Janys
  */
-@ComponentConfiguration
-public class TestRelativeComponent2 {
+public interface PlatformFactory {
 
-	@Bean(name = "string")
-	public String string() {
-		return "string";
-	}
-
-	@Bean
-	public TestController2 testController() {
-		return new TestController2();
-	}
+	SpringApplication build();
 
 }
