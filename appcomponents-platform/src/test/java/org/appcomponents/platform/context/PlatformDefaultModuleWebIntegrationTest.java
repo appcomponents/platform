@@ -22,12 +22,11 @@ import org.apache.http.HttpStatus;
 import org.appcomponents.platform.PlatformIntegrationTest;
 import org.appcomponents.platform.api.PlatformComponent;
 import org.appcomponents.platform.test.PlatformTest;
-import org.appcomponents.platform.test.beans.platform.TestBasicPlatform;
-import org.appcomponents.platform.test.beans.platform.TestBasicPlatformDefaultComponent;
+import org.appcomponents.platform.test.beans.platform.BasicPlatform;
+import org.appcomponents.platform.test.beans.platform.BasicPlatformDefaultComponent;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Collections;
 
@@ -36,7 +35,7 @@ import static com.jayway.restassured.RestAssured.when;
 /**
  * @author Martin Janys
  */
-@PlatformTest(platformFactory = TestBasicPlatformDefaultComponent.Platform.class)
+@PlatformTest(platformFactory = BasicPlatformDefaultComponent.Platform.class)
 public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegrationTest {
 
 	@Before
@@ -68,12 +67,12 @@ public class PlatformDefaultModuleWebIntegrationTest extends PlatformIntegration
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("hello"));
 		/** Module 2 */
-		when().get("/?component={component}", Collections.singletonMap(PlatformComponent.PARAM_COMPONENT, TestBasicPlatform.MODULE_2))
+		when().get("/?component={component}", Collections.singletonMap(PlatformComponent.PARAM_COMPONENT, BasicPlatform.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)
 				.content(Matchers.is("main2"));
-		when().get("/hello?component={component}", Collections.singletonMap(PlatformComponent.PARAM_COMPONENT, TestBasicPlatform.MODULE_2))
+		when().get("/hello?component={component}", Collections.singletonMap(PlatformComponent.PARAM_COMPONENT, BasicPlatform.MODULE_2))
 				.then()
 				.contentType(ContentType.TEXT)
 				.statusCode(HttpStatus.SC_OK)

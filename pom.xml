@@ -19,6 +19,7 @@
         <module>appcomponents-platform-api</module>
         <module>appcomponents-platform-test</module>
         <module>appcomponents-platform</module>
+        <module>appcomponents-platform-cms</module>
         <module>appcomponents-platform-frontend</module>
     </modules>
 
@@ -78,9 +79,9 @@
                         <configuration>
                             <skip>${disable.checks}</skip>
                             <!-- Spring boot config -->
-                            <configLocation>resources/checkstyle/checkstyle.xml</configLocation>
-                            <suppressionsLocation>resources/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
-                            <headerLocation>resources/checkstyle/checkstyle-header.txt</headerLocation>
+                            <configLocation>checkstyle/checkstyle.xml</configLocation>
+                            <suppressionsLocation>checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+                            <headerLocation>checkstyle/checkstyle-header.txt</headerLocation>
                             <propertyExpansion>checkstyle.build.directory=${project.build.directory}</propertyExpansion>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
@@ -196,6 +197,16 @@
             <dependency>
                 <groupId>org.appcomponents</groupId>
                 <artifactId>appcomponents-platform-frontend</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.appcomponents</groupId>
+                <artifactId>appcomponents-platform</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.appcomponents</groupId>
+                <artifactId>appcomponents-frontend-themes</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

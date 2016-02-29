@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 the original author or authors.
+ * Copyright 2015-2016 the original author or authors.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -14,26 +14,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.test.beans.component;
+package org.appcomponents.platform.cms.annotation;
 
-import org.appcomponents.platform.annotation.PlatformComponent;
-import org.appcomponents.platform.test.beans.controller.TestController2;
-import org.springframework.context.annotation.Bean;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import org.appcomponents.platform.cms.configuration.CmsPlatformConfig;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author Martin Janys
  */
-@PlatformComponent
-public class TestRelativeComponent2 {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
 
-	@Bean(name = "string")
-	public String string() {
-		return "string";
-	}
-
-	@Bean
-	public TestController2 testController() {
-		return new TestController2();
-	}
-
+@Configuration
+@Import(CmsPlatformConfig.class)
+public @interface CmsPlatform {
 }

@@ -14,26 +14,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.test.beans.component;
+package org.appcomponents.platform.theme;
 
-import org.appcomponents.platform.annotation.PlatformComponent;
-import org.appcomponents.platform.test.beans.controller.TestController2;
 import org.springframework.context.annotation.Bean;
+import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.thymeleaf.templateresolver.TemplateResolver;
 
 /**
  * @author Martin Janys
  */
-@PlatformComponent
-public class TestRelativeComponent2 {
+public abstract class ThymeleafTheme extends AbstractTheme {
 
-	@Bean(name = "string")
-	public String string() {
-		return "string";
+	private final String prefix;
+	private final String suffix;
+	private final String mode;
+
+	public ThymeleafTheme(String prefix, String suffix, String mode) {
+		this.prefix = prefix;
+		this.suffix = suffix;
+		this.mode = mode;
 	}
 
 	@Bean
-	public TestController2 testController() {
-		return new TestController2();
+	public TemplateResolver templateResolver() {
+		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+		templateResolver.setPrefix(prefix);
+		templateResolver.setSuffix(suffix);
+		templateResolver.setTemplateMode(mode);
+		return templateResolver;
 	}
-
 }

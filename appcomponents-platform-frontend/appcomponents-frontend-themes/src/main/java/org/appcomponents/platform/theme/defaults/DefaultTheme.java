@@ -14,26 +14,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.test.beans.component;
+package org.appcomponents.platform.theme.defaults;
 
-import org.appcomponents.platform.annotation.PlatformComponent;
-import org.appcomponents.platform.test.beans.controller.TestController2;
-import org.springframework.context.annotation.Bean;
+import org.appcomponents.platform.theme.ThymeleafTheme;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.thymeleaf.templatemode.StandardTemplateModeHandlers;
 
 /**
  * @author Martin Janys
  */
-@PlatformComponent
-public class TestRelativeComponent2 {
+public class DefaultTheme extends ThymeleafTheme {
 
-	@Bean(name = "string")
-	public String string() {
-		return "string";
+	public DefaultTheme() {
+		super("classpath:/default/templates/", ".html", StandardTemplateModeHandlers.HTML5.getTemplateModeName());
 	}
 
-	@Bean
-	public TestController2 testController() {
-		return new TestController2();
+	@Override
+	public String name() {
+		return "default-theme";
+	}
+
+	@Override
+	public void addThemeResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/css/**").addResourceLocations("classpath:default/css/");
+		registry.addResourceHandler("/font/**").addResourceLocations("classpath:default/font/");
 	}
 
 }

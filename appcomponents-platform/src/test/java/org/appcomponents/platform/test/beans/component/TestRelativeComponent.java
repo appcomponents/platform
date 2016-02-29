@@ -16,14 +16,14 @@
  */
 package org.appcomponents.platform.test.beans.component;
 
-import org.appcomponents.platform.annotation.ComponentConfiguration;
+import org.appcomponents.platform.annotation.PlatformComponent;
 import org.appcomponents.platform.test.beans.controller.TestController;
 import org.springframework.context.annotation.Bean;
 
 /**
  * @author Martin Janys
  */
-@ComponentConfiguration
+@PlatformComponent
 public class TestRelativeComponent {
 
 	@Bean(name = "string")

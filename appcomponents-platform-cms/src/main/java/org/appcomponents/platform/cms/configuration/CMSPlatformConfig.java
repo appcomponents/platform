@@ -14,26 +14,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.test.beans.component;
+package org.appcomponents.platform.cms.configuration;
 
-import org.appcomponents.platform.annotation.PlatformComponent;
-import org.appcomponents.platform.test.beans.controller.TestController2;
+import org.appcomponents.platform.cms.MainController;
+import org.appcomponents.platform.theme.Theme;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.List;
 
 /**
+ * Configuration of App Components Platform.
  * @author Martin Janys
  */
-@PlatformComponent
-public class TestRelativeComponent2 {
+@EnableWebMvc
+@Configuration
+public class CmsPlatformConfig {
 
-	@Bean(name = "string")
-	public String string() {
-		return "string";
-	}
+	@Autowired
+	private List<Theme> themes;
 
 	@Bean
-	public TestController2 testController() {
-		return new TestController2();
+	public MainController rootController() {
+		return new MainController(themes.get(0));
 	}
-
 }

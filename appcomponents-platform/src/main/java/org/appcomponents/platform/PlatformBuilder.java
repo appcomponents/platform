@@ -16,16 +16,14 @@
  */
 package org.appcomponents.platform;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.appcomponents.platform.configuration.PlatformConfigurationFactory;
+import org.appcomponents.platform.configuration.PlatformConfig;
 import org.appcomponents.platform.impl.EmbeddedWebApplication;
 import org.appcomponents.platform.impl.RootPlatformComponent;
 import org.appcomponents.platform.impl.WebApplication;
@@ -39,6 +37,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 /**
@@ -57,26 +56,14 @@ public class PlatformBuilder {
 
 	private ConfigurableEnvironment environment;
 
-	public PlatformBuilder(Object source, PlatformFeature ... platformFeature) {
-		this(new Object[]{source}, platformFeature);
-	}
-
-	public PlatformBuilder(Object[] sources, PlatformFeature ... platformFeature) {
-		Object[] allSource = addPlatformFeatures(sources, platformFeature);
-		this.springApplicationBuilder = new SpringApplicationBuilder(allSource) {
+	public PlatformBuilder(Object ... sources) {
+		this.springApplicationBuilder = new SpringApplicationBuilder(sources) {
 			@Override
 			protected SpringApplication createSpringApplication(Object... sources) {
 				return new EmbeddedWebApplication(PlatformBuilder.this.platform, sources);
 			}
 		};
 		this.springApplicationBuilder.web(true);
-	}
-
-	private Object[] addPlatformFeatures(Object[] sources, PlatformFeature[] platformFeatures) {
-		List<Object> allSources = new ArrayList<>();
-		allSources.addAll(Arrays.asList(sources));
-		allSources.addAll(PlatformConfigurationFactory.platformConfigurations(platformFeatures));
-		return allSources.toArray(new Object[allSources.size()]);
 	}
 
 	public ConfigurableApplicationContext context() {

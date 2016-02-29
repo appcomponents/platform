@@ -14,26 +14,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.appcomponents.platform.test.beans.component;
+package org.appcomponents.platform.theme;
 
-import org.appcomponents.platform.annotation.PlatformComponent;
-import org.appcomponents.platform.test.beans.controller.TestController2;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 /**
  * @author Martin Janys
  */
-@PlatformComponent
-public class TestRelativeComponent2 {
+@Configuration
+@EnableWebMvc
+public abstract class AbstractTheme extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter implements Theme {
 
-	@Bean(name = "string")
-	public String string() {
-		return "string";
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		addThemeResourceHandlers(registry);
 	}
-
-	@Bean
-	public TestController2 testController() {
-		return new TestController2();
-	}
-
 }
